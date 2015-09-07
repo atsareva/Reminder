@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    Olts
+ * @package     Olts_Reminder
+ * @author      Olena Tsareva <olts@ciklum.com>
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+
+<layout>
+
+    <!-- reminder groups grid page -->
+    <adminhtml_reminder_groups>
+        <reference name="content">
+            <block type="olts_reminder/adminhtml_group" name="reminder_group"></block>
+        </reference>
+    </adminhtml_reminder_groups>
+    <adminhtml_reminder_groupgrid>
+        <remove name="root"/>
+        <block type="olts_reminder/adminhtml_group_grid" name="reminder_group_grid"></block>
+    </adminhtml_reminder_groupgrid>
+</layout>

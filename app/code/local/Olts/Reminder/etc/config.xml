@@ -19,6 +19,11 @@
                 <class>Olts_Reminder_Helper</class>
             </olts_reminder>
         </helpers>
+        <blocks>
+            <olts_reminder>
+                <class>Olts_Reminder_Block</class>
+            </olts_reminder>
+        </blocks>
         <models>
             <olts_reminder>
                 <class>Olts_Reminder_Model</class>
@@ -51,4 +56,36 @@
             </olts_reminder_setup>
         </resources>
     </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Olts_Reminder before="Mage_Adminhtml">Olts_Reminder_Adminhtml</Olts_Reminder>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <olts_reminder>
+                    <file>reminder.xml</file>
+                </olts_reminder>
+            </updates>
+        </layout>
+    </adminhtml>
+    <stores>
+        <admin>
+            <design>
+                <package>
+                    <name>default</name>
+                </package>
+                <theme>
+                    <default>oltsreminder</default>
+                </theme>
+            </design>
+        </admin>
+    </stores>
 </config>
