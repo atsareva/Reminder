@@ -20,4 +20,14 @@
         <remove name="root"/>
         <block type="olts_reminder/adminhtml_group_grid" name="reminder_group_grid"></block>
     </adminhtml_reminder_groupgrid>
+
+    <adminhtml_reminder_editgroup>
+        <reference name="content">
+            <block type="olts_reminder/adminhtml_group_edit" name="reminder_group_edit"
+                   template="reminder/group/edit.phtml">
+                <block type="olts_reminder/adminhtml_group_edit_grid_user" name="group_users_grid"
+                       as="group_users_grid"></block>
+            </block>
+        </reference>
+    </adminhtml_reminder_editgroup>
 </layout>

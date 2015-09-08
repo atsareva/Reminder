@@ -18,6 +18,8 @@ class Olts_Reminder_Block_Adminhtml_Group extends Mage_Adminhtml_Block_Widget_Gr
         $this->_headerText = Mage::helper('olts_reminder')->__('Groups');
         $this->_addButtonLabel = Mage::helper('olts_reminder')->__('Add New Group');
         parent::__construct();
+
+        $this->_updateButton('add', 'onclick', 'setLocation(\'' . $this->getUrl("*/*/editgroup") . '\')');
     }
 
 }

@@ -15,4 +15,14 @@ class Olts_Reminder_Model_Group extends Mage_Core_Model_Abstract
     {
         $this->_init('olts_reminder/group');
     }
+
+    /**
+     * Return users for group
+     *
+     * @return array|false
+     */
+    public function getGroupUsers()
+    {
+        return $this->getResource()->getGroupUsers($this);
+    }
 }

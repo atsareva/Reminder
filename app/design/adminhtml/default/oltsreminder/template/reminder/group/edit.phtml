@@ -1,0 +1,37 @@
+<?php
+/**
+ * @category    Olts
+ * @package     Olts_Reminder
+ * @author      Olena Tsareva <olts@ciklum.com>
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+
+<?php
+/* @var $this Olts_Reminder_Block_Adminhtml_Group_Edit */
+?>
+<div class="content-header">
+    <h3 class="icon-head head-group-list"><?php echo $this->getHeaderText() ?></h3>
+
+    <p class="content-buttons form-buttons">
+        <?php echo $this->getBackButtonHtml() ?>
+        <?php echo $this->getResetButtonHtml() ?>
+        <?php echo $this->getDeleteButtonHtml() ?>
+        <?php echo $this->getSaveButtonHtml() ?>
+    </p>
+</div>
+<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="group_edit_form">
+    <?php echo $this->getBlockHtml('formkey') ?>
+    <div class="no-display">
+        <input type="hidden" id="change_flag_element" name="_change_type_flag" value=""/>
+        <input type="hidden" id="save_as_flag" name="_save_as_flag" value="<?php echo $this->getSaveAsFlag() ?>"/>
+    </div>
+    <?php echo $this->getForm(); ?>
+
+    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Group Users') ?></h4>
+    <?php echo $this->getChildHtml('group_users_grid'); ?>
+</form>
+
+<script type="text/javascript">
+    var groupForm = new varienForm('group_edit_form');
+</script>
