@@ -143,9 +143,13 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
             Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while saving this group.'));
         }
 
-        //$this->getResponse()->setRedirect($this->getUrl("*/*/editgroup/gid/$gid"));
-        $this->_redirect('*/*/editgroup', array('gid' => $gid));
-        //return;
+        // check if 'Save and Continue'
+        if ($this->getRequest()->getParam('back')) {
+            $this->_redirect('*/*/editgroup', array('gid' => $gid));
+            return;
+        }
+        // go to grid
+        $this->_redirect('*/*/groups');
     }
 
     /**

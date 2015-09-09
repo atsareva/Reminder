@@ -54,6 +54,15 @@ class Olts_Reminder_Block_Adminhtml_Group_Edit extends Mage_Adminhtml_Block_Widg
                 ))
         );
 
+        $this->setChild('saveAndContinueButton',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label' => Mage::helper('olts_reminder')->__('Save and Continue Edit'),
+                    'onclick' => "group_edit_form.submit($('group_edit_form').action='" . $this->getSaveUrl(array('back' => true)) . "');return false;",
+                    'class' => 'save'
+                ))
+        );
+
         $this->setChild('deleteButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
@@ -103,6 +112,15 @@ class Olts_Reminder_Block_Adminhtml_Group_Edit extends Mage_Adminhtml_Block_Widg
     }
 
     /**
+     * Retrieve Save and Continue Button HTML
+     *
+     * @return string
+     */
+    public function getSaveAndContinueButtonHtml()
+    {
+        return $this->getChildHtml('saveAndContinueButton');
+    }
+    /**
      * Retrieve Delete Button HTML
      *
      * @return string
@@ -144,10 +162,11 @@ class Olts_Reminder_Block_Adminhtml_Group_Edit extends Mage_Adminhtml_Block_Widg
     /**
      * Return action url for form
      *
+     * @param array
      * @return string
      */
-    public function getSaveUrl()
+    public function getSaveUrl($data = array())
     {
-        return $this->getUrl('*/*/saveGroup');
+        return $this->getUrl('*/*/saveGroup', $data);
     }
 }
