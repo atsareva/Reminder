@@ -43,6 +43,17 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
     }
 
     /**
+     * Manage Reminders action
+     */
+    public function indexAction()
+    {
+        $this->_title($this->__('Reminders'))->_title($this->__('Manage Reminders'));
+
+        $this->_initAction();
+        $this->renderLayout();
+    }
+
+    /**
      * Manage Groups action
      */
     public function groupsAction()

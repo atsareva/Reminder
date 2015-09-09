@@ -9,6 +9,12 @@
 -->
 
 <layout>
+    <!-- reminder grid page -->
+    <adminhtml_reminder_index>
+        <reference name="content">
+            <block type="olts_reminder/adminhtml_reminder" name="reminder_list"></block>
+        </reference>
+    </adminhtml_reminder_index>
 
     <!-- reminder groups grid page -->
     <adminhtml_reminder_groups>

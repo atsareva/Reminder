@@ -13,6 +13,11 @@
             <title>Reminders</title>
             <sort_order>85</sort_order>
             <children>
+                <reminder translate="title" module="olts_reminder">
+                    <title>Manage Reminders</title>
+                    <action>adminhtml/reminder/index</action>
+                    <sort_order>5</sort_order>
+                </reminder>
                 <group translate="title" module="olts_reminder">
                     <title>Manage Groups</title>
                     <action>adminhtml/reminder/groups</action>
@@ -29,6 +34,10 @@
                         <title>Reminders</title>
                         <sort_order>85</sort_order>
                         <children>
+                            <reminder translate="title">
+                                <title>Manage Reminders</title>
+                                <sort_order>5</sort_order>
+                            </reminder>
                             <group translate="title">
                                 <title>Manage Groups</title>
                                 <sort_order>10</sort_order>
