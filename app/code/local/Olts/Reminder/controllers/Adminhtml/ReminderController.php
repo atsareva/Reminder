@@ -143,8 +143,9 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
             Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while saving this group.'));
         }
 
-        $this->getResponse()->setRedirect($this->getUrl("*/*/editgroup/gid/$gid"));
-        return;
+        //$this->getResponse()->setRedirect($this->getUrl("*/*/editgroup/gid/$gid"));
+        $this->_redirect('*/*/editgroup', array('gid' => $gid));
+        //return;
     }
 
     /**
@@ -158,6 +159,32 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The group has been deleted.'));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while deleting this role.'));
+        }
+
+        $this->_redirect('*/*/groups');
+    }
+
+    /**
+     * Mass delete group action
+     */
+    public function massDeleteGroupAction()
+    {
+        $groupIds = $this->getRequest()->getParam('group');
+        if (!is_array($groupIds)) {
+            Mage::getSingleton('adminhtml/session')->addError($this->__('Please select group(s).'));
+        } else {
+            try {
+                $groupModel = Mage::getModel('olts_reminder/group');
+                foreach ($groupIds as $groupId) {
+                    $groupModel->load($groupId)
+                        ->delete();
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    $this->__('Total of %d record(s) were deleted.', count($groupIds))
+                );
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
         }
 
         $this->_redirect('*/*/groups');

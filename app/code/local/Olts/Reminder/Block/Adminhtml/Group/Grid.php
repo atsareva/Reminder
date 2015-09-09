@@ -46,6 +46,20 @@ class Olts_Reminder_Block_Adminhtml_Group_Grid extends Mage_Adminhtml_Block_Widg
         return parent::_prepareColumns();
     }
 
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('group_id');
+        $this->getMassactionBlock()->setFormFieldName('group');
+
+        $this->getMassactionBlock()->addItem('delete', array(
+            'label' => Mage::helper('olts_reminder')->__('Delete'),
+            'url' => $this->getUrl('*/*/massDeleteGroup'),
+            'confirm' => Mage::helper('olts_reminder')->__('Are you sure?')
+        ));
+
+        return $this;
+    }
+
     public function getGridUrl()
     {
         return $this->getUrl('*/*/groupGrid', array('_current' => true));
