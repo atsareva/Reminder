@@ -10,7 +10,6 @@
  */
 class Olts_Reminder_Block_Adminhtml_Group_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-
     /**
      * Retrieve group object
      *
@@ -29,7 +28,6 @@ class Olts_Reminder_Block_Adminhtml_Group_Edit_Form extends Mage_Adminhtml_Block
     protected function _prepareForm()
     {
         $model = $this->getModel();
-
 
         $form = new Varien_Data_Form(array(
             'id' => 'edit_form',

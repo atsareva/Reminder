@@ -21,12 +21,14 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
         $this->loadLayout()
             ->_setActiveMenu('reminders')
             ->_addBreadcrumb(Mage::helper('olts_reminder')->__('Reminders'), Mage::helper('olts_reminder')->__('Reminders'));
+
         return $this;
     }
 
     /**
      * Initialize group model by passed parameter in request
      *
+     * @param string $requestVariable
      * @return Olts_Reminder_Model_Group
      */
     protected function _initGroup($requestVariable = 'gid')
@@ -63,7 +65,6 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
 
     /**
      * Edit group action
-     *
      */
     public function editGroupAction()
     {
@@ -93,7 +94,6 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
 
     /**
      * Action for ajax request from assigned users grid
-     *
      */
     public function editGroupGridAction()
     {
@@ -104,7 +104,6 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
 
     /**
      * Group form submit action to save or create new group
-     *
      */
     public function saveGroupAction()
     {
@@ -162,7 +161,7 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
 
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The group has been deleted.'));
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while deleting this role.'));
+            Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while deleting this group.'));
         }
 
         $this->_redirect('*/*/groups');
@@ -183,6 +182,7 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
                     $groupModel->load($groupId)
                         ->delete();
                 }
+
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     $this->__('Total of %d record(s) were deleted.', count($groupIds))
                 );

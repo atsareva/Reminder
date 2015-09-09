@@ -38,6 +38,7 @@ class Olts_Reminder_Block_Adminhtml_Group_Edit_Grid_User extends Mage_Adminhtml_
         } else {
             parent::_addColumnFilterToCollection($column);
         }
+
         return $this;
     }
 
