@@ -26,6 +26,23 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
     }
 
     /**
+     * Initialize reminder model by passed parameter in request
+     *
+     * @param string $requestVariable
+     * @return Olts_Reminder_Model_Group
+     */
+    protected function _initReminder($requestVariable = 'rid')
+    {
+        $this->_title($this->__('Reminders'))
+            ->_title($this->__('Manage Reminder'));
+
+        $reminder = Mage::getModel('olts_reminder/reminder')->load($this->getRequest()->getParam($requestVariable));
+
+        Mage::register('current_reminder', $reminder);
+        return Mage::registry('current_reminder');
+    }
+
+    /**
      * Initialize group model by passed parameter in request
      *
      * @param string $requestVariable
@@ -61,6 +78,39 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
     {
         $this->loadLayout();
         $this->getResponse()->setBody($this->getLayout()->getBlock('reminder_grid')->toHtml());
+    }
+
+    /**
+     * Edit Reminder
+     */
+    public function editAction()
+    {
+        $this->_initAction();
+
+        $rid = $this->getRequest()->getParam('rid', false);
+        $model = $this->_initReminder();
+
+        if (!$model->getId() && $rid) {
+            Mage::getSingleton('adminhtml/session')->addError($this->__('This Reminder no longer exists.'));
+            $this->_redirect('*/*/');
+            return;
+        }
+
+        $this->_title($model->getId() ? $model->getTitle() : $this->__('New Reminder'));
+
+        $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+        if (!empty($data)) {
+            $model->setData($data);
+        }
+
+        $this->_initAction()
+            ->_addBreadcrumb(
+                $rid ? Mage::helper('olts_reminder')->__('Edit Reminder')
+                    : Mage::helper('olts_reminder')->__('New Reminder'),
+                $rid ? Mage::helper('olts_reminder')->__('Edit Reminder')
+                    : Mage::helper('olts_reminder')->__('New Reminder'));
+
+        $this->renderLayout();
     }
 
     /**
@@ -132,7 +182,7 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
         $group = $this->_initGroup('group_id');
         if (!$group->getId() && $gid) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('This Group no longer exists.'));
-            $this->_redirect('*/*/');
+            $this->_redirect('*/*/groups');
             return;
         }
 

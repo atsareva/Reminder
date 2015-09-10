@@ -4,7 +4,7 @@
 .reminder-processing,
 .reminder-completed,
 .reminder-failed{text-transform: uppercase;}
-    
+
 .reminder-disabled{background-color: #DCDCDC;}
 .reminder-pending{background-color:#87CEFA;}
 .reminder-processing{background-color:#7FFFD4;}

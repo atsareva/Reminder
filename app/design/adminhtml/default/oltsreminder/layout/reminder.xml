@@ -23,6 +23,27 @@
         <block type="olts_reminder/adminhtml_reminder_grid" name="reminder_grid"></block>
     </adminhtml_reminder_remindergrid>
 
+    <adminhtml_reminder_edit>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="olts_reminder/adminhtml_reminder_edit" name="cms_page_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="olts_reminder/adminhtml_reminder_edit_tabs" name="reminder_edit_tabs">
+                <block type="olts_reminder/adminhtml_reminder_edit_tab_main" name="reminder_edit_tab_main"/>
+                <block type="olts_reminder/adminhtml_reminder_edit_tab_content" name="reminder_edit_tab_content"/>
+                <action method="addTab">
+                    <name>main_section</name>
+                    <block>reminder_edit_tab_main</block>
+                </action>
+                <action method="addTab">
+                    <name>content_section</name>
+                    <block>reminder_edit_tab_content</block>
+                </action>
+            </block>
+        </reference>
+    </adminhtml_reminder_edit>
+
     <!-- reminder groups grid page -->
     <adminhtml_reminder_groups>
         <reference name="content">
