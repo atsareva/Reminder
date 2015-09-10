@@ -43,6 +43,25 @@ class Olts_Reminder_Block_Adminhtml_Group_Grid extends Mage_Adminhtml_Block_Widg
             'index' => 'group_name'
         ));
 
+        $this->addColumn('action',
+            array(
+                'header' => Mage::helper('olts_reminder')->__('Action'),
+                'width' => '100',
+                'type' => 'action',
+                'getter' => 'getId',
+                'actions' => array(
+                    array(
+                        'caption' => Mage::helper('olts_reminder')->__('Edit'),
+                        'url' => array('base' => '*/*/editgroup'),
+                        'field' => 'gid'
+                    )
+                ),
+                'filter' => false,
+                'sortable' => false,
+                'index' => 'stores',
+                'is_system' => true,
+            ));
+
         return parent::_prepareColumns();
     }
 

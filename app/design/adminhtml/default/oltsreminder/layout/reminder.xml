@@ -15,6 +15,10 @@
             <block type="olts_reminder/adminhtml_reminder" name="reminder_list"></block>
         </reference>
     </adminhtml_reminder_index>
+    <adminhtml_reminder_remindergrid>
+        <remove name="root"/>
+        <block type="olts_reminder/adminhtml_reminder_grid" name="reminder_grid"></block>
+    </adminhtml_reminder_remindergrid>
 
     <!-- reminder groups grid page -->
     <adminhtml_reminder_groups>

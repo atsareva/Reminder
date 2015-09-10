@@ -54,6 +54,16 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
     }
 
     /**
+     * Action for ajax request from reminder grid
+     *
+     */
+    public function reminderGridAction()
+    {
+        $this->loadLayout();
+        $this->getResponse()->setBody($this->getLayout()->getBlock('reminder_grid')->toHtml());
+    }
+
+    /**
      * Manage Groups action
      */
     public function groupsAction()

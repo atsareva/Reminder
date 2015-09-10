@@ -23,7 +23,9 @@ class Olts_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_Block_W
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('olts_reminder/reminder')->getCollection();
+        $collection = Mage::getResourceModel('olts_reminder/reminder_collection')
+            ->prepareForGrid();
+
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -39,9 +41,76 @@ class Olts_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_Block_W
         ));
 
         $this->addColumn('title', array(
-            'header' => Mage::helper('olts_reminder')->__('Title'),
+            'header' => Mage::helper('olts_reminder')->__('Reminder Title'),
             'index' => 'title'
         ));
+
+        $this->addColumn('user_name', array(
+            'header' => Mage::helper('olts_reminder')->__('Assigned to User'),
+            'index' => 'user_name',
+            'filter_condition_callback' => array($this, '_customFilter'),
+        ));
+
+        $this->addColumn('group_name', array(
+            'header' => Mage::helper('olts_reminder')->__('Assigned to Group'),
+            'index' => 'group_name'
+        ));
+
+        $this->addColumn('order_increment_id', array(
+            'header' => Mage::helper('olts_reminder')->__('Reminder for Order #'),
+            'index' => 'order_increment_id',
+            'filter_condition_callback' => array($this, '_customFilter'),
+        ));
+
+        $this->addColumn('customer_email', array(
+            'header' => Mage::helper('olts_reminder')->__('Reminder for Customer'),
+            'index' => 'customer_email',
+            'filter_condition_callback' => array($this, '_customFilter'),
+        ));
+
+        $this->addColumn('date_from', array(
+            'header' => Mage::helper('olts_reminder')->__('Active Date From'),
+            'index' => 'date_from',
+            'type' => 'datetime',
+        ));
+
+        $this->addColumn('date_to', array(
+            'header' => Mage::helper('olts_reminder')->__('Active Date To'),
+            'index' => 'date_to',
+            'type' => 'datetime',
+        ));
+
+        $statuses = Mage::getResourceModel('olts_reminder/statuses_collection')
+            ->load()
+            ->toOptionHash();
+
+        $this->addColumn('status_name', array(
+            'header' => Mage::helper('olts_reminder')->__('Status'),
+            'width'     =>  '100',
+            'index'     =>  'status_id',
+            'type'      =>  'options',
+            'options'   =>  $statuses,
+            'filter_condition_callback' => array($this, '_customFilter'),
+        ));
+
+        $this->addColumn('action',
+            array(
+                'header' => Mage::helper('olts_reminder')->__('Action'),
+                'width' => '100',
+                'type' => 'action',
+                'getter' => 'getId',
+                'actions' => array(
+                    array(
+                        'caption' => Mage::helper('olts_reminder')->__('Edit'),
+                        'url' => array('base' => '*/*/edit'),
+                        'field' => 'gid'
+                    )
+                ),
+                'filter' => false,
+                'sortable' => false,
+                'index' => 'stores',
+                'is_system' => true,
+            ));
 
         return parent::_prepareColumns();
     }
@@ -54,5 +123,17 @@ class Olts_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_Block_W
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/edit', array('rid' => $row->getId()));
+    }
+
+    protected function _customFilter(Olts_Reminder_Model_Resource_Reminder_Collection $collection, $column)
+    {
+        if (!$value = $column->getFilter()->getValue()) {
+            return $this;
+        }
+        $index = $column->getIndex();
+        $value = $column->getFilter()->getValue();
+        $collection->getSelect()->having(new Zend_Db_Expr("$index like '%$value%'"));
+
+        return $this;
     }
 }
