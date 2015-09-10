@@ -32,7 +32,7 @@ class Olts_Reminder_Model_Resource_Reminder_Collection extends Mage_Core_Model_R
         $this->getSelect()->joinLeft(
             array('reminder_status' => $this->getTable('olts_reminder/statuses')),
             "reminder_status.status_id = main_table.status_id",
-            array("status_name" => "reminder_status.status_name")
+            array("status_name" => "reminder_status.status_name", 'status_code' => 'reminder_status.code')
         );
 
         return $this;

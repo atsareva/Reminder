@@ -1,0 +1,12 @@
+/* Styles for status column in the reminder grid */
+.reminder-disabled,
+.reminder-pending,
+.reminder-processing,
+.reminder-completed,
+.reminder-failed{text-transform: uppercase;}
+    
+.reminder-disabled{background-color: #DCDCDC;}
+.reminder-pending{background-color:#87CEFA;}
+.reminder-processing{background-color:#7FFFD4;}
+.reminder-completed{background-color:#FFD700;}
+.reminder-failed{background-color: #EEB4B4;}

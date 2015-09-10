@@ -53,18 +53,20 @@ class Olts_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_Block_W
 
         $this->addColumn('group_name', array(
             'header' => Mage::helper('olts_reminder')->__('Assigned to Group'),
-            'index' => 'group_name'
+            'index' => 'group_name',
         ));
 
         $this->addColumn('order_increment_id', array(
             'header' => Mage::helper('olts_reminder')->__('Reminder for Order #'),
             'index' => 'order_increment_id',
+            'width' => '100px',
             'filter_condition_callback' => array($this, '_customFilter'),
         ));
 
         $this->addColumn('customer_email', array(
             'header' => Mage::helper('olts_reminder')->__('Reminder for Customer'),
             'index' => 'customer_email',
+            'width' => '150px',
             'filter_condition_callback' => array($this, '_customFilter'),
         ));
 
@@ -72,12 +74,16 @@ class Olts_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_Block_W
             'header' => Mage::helper('olts_reminder')->__('Active Date From'),
             'index' => 'date_from',
             'type' => 'datetime',
+            'width' => '150px',
+            'gmtoffset' => true
         ));
 
         $this->addColumn('date_to', array(
             'header' => Mage::helper('olts_reminder')->__('Active Date To'),
             'index' => 'date_to',
             'type' => 'datetime',
+            'width' => '150px',
+            'gmtoffset' => true
         ));
 
         $statuses = Mage::getResourceModel('olts_reminder/statuses_collection')
@@ -86,17 +92,19 @@ class Olts_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_Block_W
 
         $this->addColumn('status_name', array(
             'header' => Mage::helper('olts_reminder')->__('Status'),
-            'width'     =>  '100',
-            'index'     =>  'status_id',
-            'type'      =>  'options',
-            'options'   =>  $statuses,
+            'width' => '150',
+            'index' => 'status_id',
+            'align' => 'center',
+            'type' => 'options',
+            'options' => $statuses,
+            'renderer' => 'olts_reminder/adminhtml_reminder_grid_renderer_status',
             'filter_condition_callback' => array($this, '_customFilter'),
         ));
 
         $this->addColumn('action',
             array(
                 'header' => Mage::helper('olts_reminder')->__('Action'),
-                'width' => '100',
+                'width' => '70',
                 'type' => 'action',
                 'getter' => 'getId',
                 'actions' => array(
