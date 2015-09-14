@@ -18,4 +18,24 @@ class Olts_Reminder_Model_Resource_Group_Collection extends Mage_Core_Model_Reso
     {
         $this->_init('olts_reminder/group');
     }
+
+    /**
+     * Retrieve option array
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return parent::_toOptionArray('group_id', 'group_name');
+    }
+
+    /**
+     * Retrieve option hash
+     *
+     * @return array
+     */
+    public function toOptionHash()
+    {
+        return parent::_toOptionHash('group_id', 'group_name');
+    }
 }
