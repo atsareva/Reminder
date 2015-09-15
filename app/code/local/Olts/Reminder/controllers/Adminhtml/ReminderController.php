@@ -60,6 +60,18 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
     }
 
     /**
+     * Filtering posted data. Converting localized data if needed
+     *
+     * @param array
+     * @return array
+     */
+    protected function _filterPostData($data)
+    {
+        $data = $this->_filterDates($data, array('date_from', 'date_to'));
+        return $data;
+    }
+
+    /**
      * Manage Reminders action
      */
     public function indexAction()
@@ -85,8 +97,6 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
      */
     public function editAction()
     {
-        $this->_initAction();
-
         $rid = $this->getRequest()->getParam('rid', false);
         $model = $this->_initReminder();
 
@@ -111,6 +121,65 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
                     : Mage::helper('olts_reminder')->__('New Reminder'));
 
         $this->renderLayout();
+    }
+
+    /**
+     * Save reminder action
+     */
+    public function saveAction()
+    {
+        // check if data sent
+        if ($data = $this->getRequest()->getPost()) {
+            $data = $this->_filterPostData($data);
+            //init model and set data
+            $model = Mage::getModel('olts_reminder/reminder');
+
+            if ($id = $this->getRequest()->getParam('reminder_id')) {
+                $model->load($id);
+            }
+
+            $model->setData($data);
+
+            Mage::dispatchEvent('reminder_prepare_save', array('reminder' => $model, 'request' => $this->getRequest()));
+
+            // try to save it
+            try {
+                //set actual reminder status
+                $model->updateStatus();
+
+                if (!$model->getGroupId()) {
+                    $model->setGroupId(null);
+                }
+
+                // save the data
+                $model->save();
+
+                // display success message
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('olts_reminder')->__('The reminder has been saved.'));
+                // clear previously saved data from session
+                Mage::getSingleton('adminhtml/session')->setFormData(false);
+                // check if 'Save and Continue'
+                if ($this->getRequest()->getParam('back')) {
+                    $this->_redirect('*/*/edit', array('reminder_id' => $model->getId(), '_current' => true));
+                    return;
+                }
+                // go to grid
+                $this->_redirect('*/*/');
+                return;
+
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                $this->_getSession()->addException($e,
+                    Mage::helper('olts_reminder')->__('An error occurred while saving the reminder.'));
+            }
+
+            $this->_getSession()->setFormData($data);
+            $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('reminder_id')));
+            return;
+        }
+        $this->_redirect('*/*/');
     }
 
     /**

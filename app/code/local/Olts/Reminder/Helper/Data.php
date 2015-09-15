@@ -40,4 +40,50 @@ class Olts_Reminder_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $options;
     }
+
+    /**
+     * Retrieve current status of reminder
+     *
+     * @param Olts_Reminder_Model_Reminder $reminder
+     * @return string
+     */
+    public function getActualReminderStatus(Olts_Reminder_Model_Reminder $reminder)
+    {
+        if ($reminder->getIsComplete()) {
+            return Olts_Reminder_Model_Statuses::STATUS_CODE_COMPLETED;
+        }
+
+        if (!$reminder->getIsActive()) {
+            return Olts_Reminder_Model_Statuses::STATUS_CODE_DISABLED;
+        }
+
+        $dateTo = $this->_getTimestamp($reminder->getDateTo());
+        $dateFrom = $this->_getTimestamp($reminder->getDateFrom());
+        $currentDate = $this->_getTimestamp();
+
+        if ($currentDate < $dateFrom) {
+            return Olts_Reminder_Model_Statuses::STATUS_CODE_PENDING;
+        } elseif ($currentDate >= $dateFrom && $currentDate <= $dateTo) {
+            return Olts_Reminder_Model_Statuses::STATUS_CODE_PROCESSING;
+        } else {
+            return Olts_Reminder_Model_Statuses::STATUS_CODE_FAILED;
+        }
+
+    }
+
+    /**
+     * Retrieve GMT timestamp
+     *
+     * @param mixed $input
+     * @return int
+     */
+    protected function _getTimestamp($input = null)
+    {
+        $dateModel = Mage::getSingleton('core/date');
+        if ($input) {
+            return $dateModel->gmtTimestamp($input);
+        }
+
+        return $dateModel->gmtTimestamp();
+    }
 }

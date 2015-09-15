@@ -21,4 +21,16 @@ class Olts_Reminder_Model_Statuses extends Mage_Core_Model_Abstract
     {
         $this->_init('olts_reminder/statuses');
     }
+
+    /**
+     * Load status by code
+     *
+     * @param   string code
+     * @return  Olts_Reminder_Model_Statuses
+     */
+    public function loadByCode($code)
+    {
+        $this->_getResource()->loadByCode($this, $code);
+        return $this;
+    }
 }

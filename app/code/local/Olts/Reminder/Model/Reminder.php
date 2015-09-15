@@ -23,20 +23,45 @@ class Olts_Reminder_Model_Reminder extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Get helper instance
+     *
+     * @return Olts_Reminder_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('olts_reminder');
+    }
+
+    /**
      * Prepare reminder's statuses.
      * Available event reminder_get_available_statuses to customize statuses.
      *
      * @return array
      */
-    public function getAvailableStatuses()
+    public function getIsActiveStatuses()
     {
         $statuses = new Varien_Object(array(
             self::STATUS_ENABLED => Mage::helper('olts_reminder')->__('Enabled'),
             self::STATUS_DISABLED => Mage::helper('olts_reminder')->__('Disabled'),
         ));
 
-        Mage::dispatchEvent('reminder_get_available_statuses', array('statuses' => $statuses));
+        Mage::dispatchEvent('reminder_get_is_active_statuses', array('statuses' => $statuses));
 
         return $statuses->getData();
+    }
+
+    /**
+     * Set actual reminder status
+     *
+     * @return Olts_Reminder_Model_Reminder $this
+     */
+    public function updateStatus()
+    {
+        $code = $this->_getHelper()->getActualReminderStatus($this);
+        $status = Mage::getModel('olts_reminder/statuses')->loadByCode($code);
+
+        $this->setStatusId($status->getId());
+
+        return $this;
     }
 }

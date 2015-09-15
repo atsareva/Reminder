@@ -21,14 +21,14 @@ class Olts_Reminder_Block_Adminhtml_Reminder_Edit extends Mage_Adminhtml_Block_W
 
         parent::__construct();
 
-            $this->_updateButton('save', 'label', Mage::helper('olts_reminder')->__('Save Page'));
-            $this->_addButton('saveandcontinue', array(
-                'label' => Mage::helper('olts_reminder')->__('Save and Continue Edit'),
-                'onclick' => 'saveAndContinueEdit(\'' . $this->_getSaveAndContinueUrl() . '\')',
-                'class' => 'save',
-            ), -100);
+        $this->_updateButton('save', 'label', Mage::helper('olts_reminder')->__('Save Page'));
+        $this->_addButton('saveandcontinue', array(
+            'label' => Mage::helper('olts_reminder')->__('Save and Continue Edit'),
+            'onclick' => 'saveAndContinueEdit(\'' . $this->_getSaveAndContinueUrl() . '\')',
+            'class' => 'save',
+        ), -100);
 
-            $this->_updateButton('delete', 'label', Mage::helper('olts_reminder')->__('Delete Page'));
+        $this->_updateButton('delete', 'label', Mage::helper('olts_reminder')->__('Delete Page'));
 
     }
 
@@ -47,6 +47,17 @@ class Olts_Reminder_Block_Adminhtml_Reminder_Edit extends Mage_Adminhtml_Block_W
     }
 
     /**
+     * Retrieve reminder save url
+     *
+     * @param array $data
+     * @return string
+     */
+    protected function _getSaveUrl($data = array())
+    {
+        return $this->getUrl('*/*/save', $data);
+    }
+
+    /**
      * Getter of url for "Save and Continue" button
      * tab_id will be replaced by desired by JS later
      *
@@ -54,11 +65,22 @@ class Olts_Reminder_Block_Adminhtml_Reminder_Edit extends Mage_Adminhtml_Block_W
      */
     protected function _getSaveAndContinueUrl()
     {
-        return $this->getUrl('*/*/save', array(
+        return $this->_getSaveUrl(array(
             '_current' => true,
             'back' => 'edit',
             'active_tab' => '{{tab_id}}'
         ));
+    }
+
+    /**
+     * Get form save URL
+     *
+     * @deprecated
+     * @return string
+     */
+    public function getSaveUrl()
+    {
+        return $this->_getSaveUrl();
     }
 
     /**

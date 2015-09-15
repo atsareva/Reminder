@@ -26,7 +26,7 @@
     <adminhtml_reminder_edit>
         <update handle="editor"/>
         <reference name="content">
-            <block type="olts_reminder/adminhtml_reminder_edit" name="cms_page_edit"></block>
+            <block type="olts_reminder/adminhtml_reminder_edit" name="reminder_page_edit"></block>
         </reference>
         <reference name="left">
             <block type="olts_reminder/adminhtml_reminder_edit_tabs" name="reminder_edit_tabs">

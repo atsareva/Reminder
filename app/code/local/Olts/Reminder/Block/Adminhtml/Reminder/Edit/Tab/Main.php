@@ -37,6 +37,10 @@ class Olts_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Main
             $fieldset->addField('reminder_id', 'hidden', array(
                 'name' => 'reminder_id',
             ));
+
+            $fieldset->addField('is_complete', 'hidden', array(
+                'name' => 'is_complete',
+            ));
         }
 
         $fieldset->addField('user_id', 'select', array(
@@ -78,7 +82,7 @@ class Olts_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Main
             'title' => Mage::helper('olts_reminder')->__('Reminder Status'),
             'name' => 'is_active',
             'required' => true,
-            'options' => $model->getAvailableStatuses(),
+            'options' => $model->getIsActiveStatuses(),
         ));
 
         Mage::dispatchEvent('reminder_edit_tab_main_prepare_form', array('form' => $form));
