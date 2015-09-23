@@ -63,9 +63,8 @@ class Olts_Reminder_Model_Resource_Group extends Mage_Core_Model_Resource_Db_Abs
         $insert = array_diff_key($users, $oldUsers);
         $delete = array_diff_key($oldUsers, $users);
 
-        $resource = Mage::getSingleton('core/resource');
-        $adapter = $resource->getConnection('core_write');
-        $groupRelationTable = $resource->getTableName('olts_reminder/group_user_relation');
+        $adapter = $this->_getWriteAdapter();
+        $groupRelationTable = $this->getTable('olts_reminder/group_user_relation');
 
         /**
          * Delete users from group

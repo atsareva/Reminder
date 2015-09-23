@@ -31,7 +31,43 @@ class Olts_Reminder_Model_Resource_Reminder extends Mage_Core_Model_Resource_Db_
             $object->setCreationTime(Mage::getSingleton('core/date')->gmtDate());
         }
         $object->setUpdateTime(Mage::getSingleton('core/date')->gmtDate());
+        $object->setStatusId((int)$this->_getReminderStatus($object)->getId());
 
         return $this;
     }
+
+    /**
+     * Retrieve actual reminder status
+     *
+     * @param Olts_Reminder_Model_Reminder $reminder
+     * @return Olts_Reminder_Model_Statuses
+     */
+    protected function _getReminderStatus(Olts_Reminder_Model_Reminder $reminder)
+    {
+        return Mage::helper('olts_reminder')->getActualReminderStatus($reminder);
+    }
+
+    /**
+     * Update reminder status
+     *
+     * @param Olts_Reminder_Model_Reminder $reminder
+     * @return Olts_Reminder_Model_Resource_Reminder
+     */
+    public function updateStatus(Olts_Reminder_Model_Reminder $reminder)
+    {
+        //get actual status
+        $status = $this->_getReminderStatus($reminder);
+        if ($status->getId() != $reminder->getStatusId()) {
+            $reminder->setStatusId($status->getId());
+
+            $bind = array('status_id' => (int)$status->getId());
+            $where = array('reminder_id = ?' => (int)$reminder->getId());
+
+            $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);
+        }
+
+        return $this;
+    }
+
+
 }

@@ -10,12 +10,21 @@
  */
 class Olts_Reminder_Model_Resource_Reminder_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
+
     /**
      * Define resource model
      */
     protected function _construct()
     {
         $this->_init('olts_reminder/reminder');
+    }
+
+    protected function _afterLoad(){
+        parent::_afterLoad();
+
+        $this->_updateReminders();
+
+        return $this;
     }
 
     /**
@@ -91,5 +100,13 @@ class Olts_Reminder_Model_Resource_Reminder_Collection extends Mage_Core_Model_R
             "c.entity_id = main_table.customer_id",
             array("customer_email" => "c.email")
         );
+    }
+
+    protected function _updateReminders(){
+        $resource = $this->getResource();
+
+        foreach($this->getItems() as $item){
+            $resource->updateStatus($item);
+        }
     }
 }

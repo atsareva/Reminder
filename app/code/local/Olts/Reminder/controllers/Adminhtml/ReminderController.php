@@ -144,9 +144,6 @@ class Olts_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controll
 
             // try to save it
             try {
-                //set actual reminder status
-                $model->updateStatus();
-
                 if (!$model->getGroupId()) {
                     $model->setGroupId(null);
                 }

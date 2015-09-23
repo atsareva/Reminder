@@ -49,19 +49,4 @@ class Olts_Reminder_Model_Reminder extends Mage_Core_Model_Abstract
 
         return $statuses->getData();
     }
-
-    /**
-     * Set actual reminder status
-     *
-     * @return Olts_Reminder_Model_Reminder $this
-     */
-    public function updateStatus()
-    {
-        $code = $this->_getHelper()->getActualReminderStatus($this);
-        $status = Mage::getModel('olts_reminder/statuses')->loadByCode($code);
-
-        $this->setStatusId($status->getId());
-
-        return $this;
-    }
 }

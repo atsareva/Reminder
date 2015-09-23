@@ -9,10 +9,20 @@
 -->
 
 <layout>
+    <!-- reminder notifications -->
+    <default>
+        <reference name="notifications">
+            <block type="olts_reminder/adminhtml_notification" name="reminder_notification"
+                   template="reminder/notification.phtml"></block>
+        </reference>
+    </default>
+
     <!-- reminder grid page -->
     <adminhtml_reminder_index>
         <reference name="head">
-            <action method="addCss"><name>css/reminder.css</name></action>
+            <action method="addCss">
+                <name>css/reminder.css</name>
+            </action>
         </reference>
         <reference name="content">
             <block type="olts_reminder/adminhtml_reminder" name="reminder_list"></block>
